@@ -1,11 +1,9 @@
 package mvc.mvc2Study.springmvc.basic.request;
 
 import lombok.extern.slf4j.Slf4j;
+import mvc.mvc2Study.springmvc.basic.HelloData;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -92,6 +90,31 @@ public class RequestParamController {
             ){
 
         log.info("map username = {}, age = {}", paramMap.get("username"), paramMap.get("age"));
+
+        return "ok!";
+    }
+
+    @ResponseBody
+    @RequestMapping("/model-attribute-v1")
+    public String modelAttributeV1(
+//            @RequestParam String username,
+//            @RequestParam int age
+            @ModelAttribute HelloData helloData // HelloData의 필드명과 파라미터 명을 보고 자동으로 setter 주입한다. 타입이 다르면 바인딩 예외 처리한다.
+    ){
+//        HelloData helloData = new HelloData(username, age);
+
+        log.info("modelAttribute username = {}, age = {}", helloData.getUsername(), helloData.getAge());
+
+        return "ok!";
+    }
+
+    @ResponseBody
+    @RequestMapping("/model-attribute-v2")
+    public String modelAttributeV2(
+        HelloData helloData
+    ){
+
+        log.info("modelAttribute2 username = {}, age = {}", helloData.getUsername(), helloData.getAge());
 
         return "ok!";
     }
