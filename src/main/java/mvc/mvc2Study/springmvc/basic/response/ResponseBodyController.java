@@ -41,7 +41,7 @@ public class ResponseBodyController {
 
     @ResponseBody
     @ResponseStatus(value = HttpStatus.OK) // 응답 상태 반환, 상태를 동적으로 변경하고 싶으면 ResponseEntity 사용
-    @GetMapping("/response-body-json-v1")
+    @GetMapping("/response-body-json-v2")
     public HelloData responseBodyJsonV2() {
         HelloData helloData = new HelloData("hello", 20);
 
