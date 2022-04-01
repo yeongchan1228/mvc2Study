@@ -1,0 +1,6 @@
+# 실제 운영 서버는 info부터 설정, 개발 서버는 debug부터 설정, local 서버는 debug, trace
+logging:
+  level:
+    mvc:
+#      mvc2Study: trace # 모든 레벨 log 보기
+      mvc2Study: debug # debug 부터 보기, Trace 출력 X
