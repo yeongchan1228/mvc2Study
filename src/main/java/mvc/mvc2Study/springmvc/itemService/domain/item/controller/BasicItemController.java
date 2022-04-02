@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @Controller
-@RequestMapping("/message/items")
+@RequestMapping("/basic/items")
 @RequiredArgsConstructor
 public class BasicItemController {
 
@@ -23,20 +23,20 @@ public class BasicItemController {
     public String items(Model model) {
         List<Item> items = itemRepository.findAll();
         model.addAttribute("items", items);
-        return "message/items";
+        return "basic/items";
     }
 
     @GetMapping("/{itemId}")
     public String item(@PathVariable long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
-        return "message/item";
+        return "basic/item";
     }
 
     @GetMapping("/add")
     public String addForm(Model model) {
         model.addAttribute("item", new Item());
-        return "message/addForm";
+        return "basic/addForm";
     }
 
     @PostMapping("/add")
@@ -44,20 +44,20 @@ public class BasicItemController {
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
-        return "redirect:/message/items/{itemId}";
+        return "redirect:/basic/items/{itemId}";
     }
 
     @GetMapping("/{itemId}/edit")
     public String editForm(@PathVariable Long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
-        return "message/editForm";
+        return "basic/editForm";
     }
 
     @PostMapping("/{itemId}/edit")
     public String edit(@PathVariable Long itemId, @ModelAttribute Item item) {
         itemRepository.update(itemId, item);
-        return "redirect:/message/items/{itemId}";
+        return "redirect:/basic/items/{itemId}";
     }
 
 
