@@ -4,3 +4,8 @@ logging:
     mvc:
 #      mvc2Study: trace # 모든 레벨 log 보기
       mvc2Study: debug # debug 부터 보기, Trace 출력 X
+
+spring:
+  messages:
+    basename: messages
+    encoding: UTF-8
