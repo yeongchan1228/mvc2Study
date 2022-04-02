@@ -1,6 +1,6 @@
-package mvc.mvc2Study.springmvc.itemService.repository;
+package mvc.mvc2Study.springmvc.itemService.domain.item.repository;
 
-import mvc.mvc2Study.springmvc.itemService.domain.Item;
+import mvc.mvc2Study.springmvc.itemService.domain.item.entity.Item;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

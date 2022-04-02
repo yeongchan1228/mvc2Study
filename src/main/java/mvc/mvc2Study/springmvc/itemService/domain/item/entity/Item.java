@@ -1,4 +1,4 @@
-package mvc.mvc2Study.springmvc.itemService.domain;
+package mvc.mvc2Study.springmvc.itemService.domain.item.entity;
 
 import lombok.Data;
 import lombok.Getter;

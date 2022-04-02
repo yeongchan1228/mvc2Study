@@ -1,7 +1,7 @@
 package mvc.mvc2Study.springmvc.itemService.repository;
 
-import mvc.mvc2Study.springmvc.itemService.domain.Item;
-import org.assertj.core.api.Assertions;
+import mvc.mvc2Study.springmvc.itemService.domain.item.entity.Item;
+import mvc.mvc2Study.springmvc.itemService.domain.item.repository.ItemRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ItemRepositoryTest {
 
-    @Autowired ItemRepository itemRepository;
+    @Autowired
+    ItemRepository itemRepository;
 
     @AfterEach
     public void afterEach(){
