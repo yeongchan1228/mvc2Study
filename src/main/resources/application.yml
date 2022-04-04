@@ -7,5 +7,5 @@ logging:
 
 spring:
   messages:
-    basename: messages
+    basename: messages,errors
     encoding: UTF-8
