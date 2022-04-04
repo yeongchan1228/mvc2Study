@@ -74,7 +74,19 @@ public class ValidationItemControllerV3 {
     }
 
     @PostMapping("/{itemId}/edit")
-    public String edit(@PathVariable Long itemId, @ModelAttribute Item item) {
+    public String edit(@PathVariable Long itemId, @Validated @ModelAttribute Item item, BindingResult bindingResult) {
+        if(item.getPrice() != null && item.getQuantity() != null){
+            int sum = item.getPrice() * item.getQuantity();
+            if(sum <= 10000){
+                bindingResult.reject("totalPriceMin", new Object[]{10000, sum}, null);
+            }
+        }
+
+        if(bindingResult.hasErrors()){
+            log.info("edit error = {}", bindingResult);
+            return "validation3/editForm";
+        }
+
         itemRepository.update(itemId, item);
         return "redirect:/validation3/items/{itemId}";
     }
