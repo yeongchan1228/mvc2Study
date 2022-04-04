@@ -10,6 +10,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,6 +26,13 @@ import java.util.Map;
 public class ValidationItemControllerV2 {
 
     private final ItemRepository itemRepository;
+    private final ItemValidator itemValidator;
+
+//     해당 컨트롤러에 validator를 등록한다.
+    @InitBinder
+    public void init(WebDataBinder webDataBinder){
+        webDataBinder.addValidators(itemValidator);
+    }
 
     @GetMapping
     public String items(Model model) {
@@ -165,7 +174,7 @@ public class ValidationItemControllerV2 {
     /**
      * rejectValue(), reject() 사용
      */
-    @PostMapping("/add")
+//    @PostMapping("/add")
     public String addItemV4(@ModelAttribute Item item, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes, Model model) {
 
@@ -193,6 +202,47 @@ public class ValidationItemControllerV2 {
                 bindingResult.reject("totalPrinceMin", new Object[]{10000, result}, null);
             }
         }
+
+        // 검증 실패 시 다시 입력 폼으로
+        if(bindingResult.hasErrors()){
+            log.info("bindingResult = {}", bindingResult);
+            // bindingResult는 알아서 Model에 담긴다.
+            return "validation2/addForm";
+        }
+
+        // 성공 시
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation2/items/{itemId}";
+    }
+
+//    @PostMapping("/add")
+    public String addItemV5(@ModelAttribute Item item, BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes, Model model) {
+
+        itemValidator.validate(item, bindingResult);
+
+        // 검증 실패 시 다시 입력 폼으로
+        if(bindingResult.hasErrors()){
+            log.info("bindingResult = {}", bindingResult);
+            // bindingResult는 알아서 Model에 담긴다.
+            return "validation2/addForm";
+        }
+
+        // 성공 시
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation2/items/{itemId}";
+    }
+
+    // @Validated -> 해당 객체에 대해서 검증기가 수행된다. 검증된 결과가 bindingResult에 담긴다. -> 검증기를 실행해라.
+    // 여러 개일 경우 만들어 놓은 supports() 가 동작해서 적용할 수 있는 validator를 찾는다.
+    @PostMapping("/add")
+    public String addItemV6(@Validated @ModelAttribute Item item, BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes, Model model) {
+
 
         // 검증 실패 시 다시 입력 폼으로
         if(bindingResult.hasErrors()){
