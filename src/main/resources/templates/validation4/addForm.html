@@ -22,7 +22,7 @@
         <h2 th:text="#{page.addItem}">상품 등록 폼</h2>
     </div>
 
-    <form action="item.html" th:action th:object="${item}" method="post">
+    <form action="item.html" th:action th:object="${itemSaveDto}" method="post">
 
         <div th:if="${#fields.hasGlobalErrors()}">
             <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
