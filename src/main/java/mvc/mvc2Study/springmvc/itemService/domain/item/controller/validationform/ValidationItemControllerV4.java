@@ -2,6 +2,8 @@ package mvc.mvc2Study.springmvc.itemService.domain.item.controller.validationfor
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mvc.mvc2Study.springmvc.itemService.domain.item.controller.validationform.dto.ItemSaveDto;
+import mvc.mvc2Study.springmvc.itemService.domain.item.controller.validationform.dto.ItemUpdateDto;
 import mvc.mvc2Study.springmvc.itemService.domain.item.entity.Item;
 import mvc.mvc2Study.springmvc.itemService.domain.item.entity.SaveCheck;
 import mvc.mvc2Study.springmvc.itemService.domain.item.entity.UpdateCheck;
@@ -39,45 +41,19 @@ public class ValidationItemControllerV4 {
 
     @GetMapping("/add")
     public String addForm(Model model) {
-        model.addAttribute("item", new Item());
+        model.addAttribute("itemSaveDto", new ItemSaveDto());
         return "validation4/addForm";
     }
 
-//    @PostMapping("/add")
-    public String addItemV1(@Validated @ModelAttribute Item item, BindingResult bindingResult,
-                            RedirectAttributes redirectAttributes, Model model) {
-
-        if(item.getPrice() != null && item.getQuantity() != null){
-            int sum = item.getPrice() * item.getQuantity();
-            if(sum <= 10000){
-                bindingResult.reject("totalPriceMin", new Object[]{10000, sum}, null);
-            }
-        }
-
-        // 검증 실패 시 다시 입력 폼으로
-        if(bindingResult.hasErrors()){
-            log.info("bindingResult = {}", bindingResult);
-            // bindingResult는 알아서 Model에 담긴다.
-            return "validation4/addForm";
-        }
-
-        // 성공 시
-        Item savedItem = itemRepository.save(item);
-        redirectAttributes.addAttribute("itemId", savedItem.getId());
-        redirectAttributes.addAttribute("status", true);
-        return "redirect:/validation4/items/{itemId}";
-    }
-
     @PostMapping("/add")
-    public String addItemV2(@Validated(SaveCheck.class) @ModelAttribute Item item, BindingResult bindingResult,
-                            RedirectAttributes redirectAttributes, Model model) {
+    public String addItem(@Validated @ModelAttribute ItemSaveDto itemSaveDto, BindingResult bindingResult,
+                          RedirectAttributes redirectAttributes, Model model) {
 
-        if(item.getPrice() != null && item.getQuantity() != null){
-            int sum = item.getPrice() * item.getQuantity();
-            if(sum <= 10000){
+        int sum = itemSaveDto.getPrice() * itemSaveDto.getQuantity();
+        if(sum <= 10000){
                 bindingResult.reject("totalPriceMin", new Object[]{10000, sum}, null);
-            }
         }
+
 
         // 검증 실패 시 다시 입력 폼으로
         if(bindingResult.hasErrors()){
@@ -87,6 +63,7 @@ public class ValidationItemControllerV4 {
         }
 
         // 성공 시
+        Item item = new Item(itemSaveDto.getItemName(), itemSaveDto.getPrice(), itemSaveDto.getQuantity());
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
@@ -101,10 +78,11 @@ public class ValidationItemControllerV4 {
     }
 
     @PostMapping("/{itemId}/edit")
-    public String edit(@PathVariable Long itemId, @Validated(UpdateCheck.class) @ModelAttribute Item item, BindingResult bindingResult) {
-        if(item.getPrice() != null && item.getQuantity() != null){
-            int sum = item.getPrice() * item.getQuantity();
-            if(sum <= 10000){
+    public String edit(@PathVariable Long itemId, @Validated @ModelAttribute("item") ItemUpdateDto itemUpdateDto, BindingResult bindingResult) {
+
+        if(itemUpdateDto.getQuantity() != null) {
+            int sum = itemUpdateDto.getPrice() * itemUpdateDto.getQuantity();
+            if (sum <= 10000) {
                 bindingResult.reject("totalPriceMin", new Object[]{10000, sum}, null);
             }
         }
@@ -114,6 +92,7 @@ public class ValidationItemControllerV4 {
             return "validation4/editForm";
         }
 
+        Item item = new Item(itemUpdateDto.getItemName(), itemUpdateDto.getPrice(), itemUpdateDto.getQuantity());
         itemRepository.update(itemId, item);
         return "redirect:/validation4/items/{itemId}";
     }
