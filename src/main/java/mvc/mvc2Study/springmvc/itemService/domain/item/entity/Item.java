@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.ScriptAssert;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +13,8 @@ import javax.validation.constraints.NotNull;
 
 @Getter @Setter
 @NoArgsConstructor
+//@ScriptAssert(lang = "javascript", script = "_this.price * _this.quantity >= 10000",
+//        message = "총합이 10000 넘게 입력해 주세요.") -> 사용하지 않는다. 기능이 너무 약함. 이 부분은 자바 코드로 작성.
 public class Item {
 
     private Long id;
