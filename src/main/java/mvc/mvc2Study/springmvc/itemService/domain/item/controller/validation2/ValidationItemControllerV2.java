@@ -169,6 +169,12 @@ public class ValidationItemControllerV2 {
     public String addItemV4(@ModelAttribute Item item, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes, Model model) {
 
+        if(bindingResult.hasErrors()){ // 타입 오류 시 스프링이 error를 넣어주기 때문에 앞에서 호출 -> 타입 에러 시 그 부분만 오류 메시지 출력
+            log.info("bindingResult = {}", bindingResult);
+            // bindingResult는 알아서 Model에 담긴다.
+            return "validation2/addForm";
+        }
+
         //검증 로직
         if(!StringUtils.hasText(item.getItemName())){
             bindingResult.rejectValue("itemName", "required", null);
