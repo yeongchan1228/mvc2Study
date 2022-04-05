@@ -1,4 +1,4 @@
-package mvc.mvc2Study.springmvc.itemService.domain.item.controller.validationform.dto;
+package mvc.mvc2Study.springmvc.itemService.web.item.controller.validationform.dto;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;

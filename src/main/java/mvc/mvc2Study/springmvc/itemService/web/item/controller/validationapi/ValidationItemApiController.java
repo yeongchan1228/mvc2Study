@@ -1,8 +1,8 @@
-package mvc.mvc2Study.springmvc.itemService.domain.item.controller.validationapi;
+package mvc.mvc2Study.springmvc.itemService.web.item.controller.validationapi;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mvc.mvc2Study.springmvc.itemService.domain.item.controller.validationform.dto.ItemSaveDto;
+import mvc.mvc2Study.springmvc.itemService.web.item.controller.validationform.dto.ItemSaveDto;
 import mvc.mvc2Study.springmvc.itemService.domain.item.entity.Item;
 import mvc.mvc2Study.springmvc.itemService.domain.item.repository.ItemRepository;
 import org.springframework.validation.BindingResult;

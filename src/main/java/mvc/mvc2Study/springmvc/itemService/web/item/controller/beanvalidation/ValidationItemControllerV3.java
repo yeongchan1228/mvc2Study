@@ -1,4 +1,4 @@
-package mvc.mvc2Study.springmvc.itemService.domain.item.controller.beanvalidation;
+package mvc.mvc2Study.springmvc.itemService.web.item.controller.beanvalidation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package mvc.mvc2Study.springmvc.itemService.domain.item.controller.validation2;
+package mvc.mvc2Study.springmvc.itemService.web.item.controller.validation2;
 
 import mvc.mvc2Study.springmvc.itemService.domain.item.entity.Item;
 import org.springframework.stereotype.Component;

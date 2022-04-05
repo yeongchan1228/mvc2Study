@@ -1,12 +1,10 @@
-package mvc.mvc2Study.springmvc.itemService.domain.item.controller.validationform;
+package mvc.mvc2Study.springmvc.itemService.web.item.controller.validationform;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mvc.mvc2Study.springmvc.itemService.domain.item.controller.validationform.dto.ItemSaveDto;
-import mvc.mvc2Study.springmvc.itemService.domain.item.controller.validationform.dto.ItemUpdateDto;
+import mvc.mvc2Study.springmvc.itemService.web.item.controller.validationform.dto.ItemSaveDto;
+import mvc.mvc2Study.springmvc.itemService.web.item.controller.validationform.dto.ItemUpdateDto;
 import mvc.mvc2Study.springmvc.itemService.domain.item.entity.Item;
-import mvc.mvc2Study.springmvc.itemService.domain.item.entity.SaveCheck;
-import mvc.mvc2Study.springmvc.itemService.domain.item.entity.UpdateCheck;
 import mvc.mvc2Study.springmvc.itemService.domain.item.repository.ItemRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
