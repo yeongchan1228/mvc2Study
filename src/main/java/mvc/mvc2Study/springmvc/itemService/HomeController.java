@@ -4,10 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mvc.mvc2Study.springmvc.itemService.domain.member.entity.Member;
 import mvc.mvc2Study.springmvc.itemService.domain.member.repository.MemberRepository;
+import mvc.mvc2Study.springmvc.itemService.web.session.SessionManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @Controller
@@ -15,14 +19,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     private final MemberRepository memberRepository;
+    private final SessionManager sessionManager;
 
 //    @GetMapping("/")
     public String home(){
         return "home";
     }
 
-    @GetMapping("/")
-    public String homeLogin(@CookieValue(name = "memberId", required = false) Long memberId, Model model){
+//    @GetMapping("/")
+    public String homeLoginV1(@CookieValue(name = "memberId", required = false) Long memberId, Model model){
         if(memberId == null){
             return "home";
         }
@@ -36,5 +41,15 @@ public class HomeController {
         model.addAttribute("member", findMember);
         return "loginHome";
 
+    }
+
+    @GetMapping("/")
+    public String homeLoginV2(HttpServletRequest request, Model model){
+
+        Member result = (Member) sessionManager.getSession(request);
+        if(result == null) return "home";
+
+        model.addAttribute("member", result);
+        return "loginHome";
     }
 }
