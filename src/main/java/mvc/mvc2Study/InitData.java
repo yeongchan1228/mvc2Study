@@ -24,6 +24,6 @@ public class InitData {
 
     @PostConstruct
     public void initMember(){
-        memberRepository.save(new Member("test", "테스터", "test"));
+        memberRepository.save(new Member("test", "테스터", "test!"));
     }
 }
