@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import mvc.mvc2Study.springmvc.itemService.domain.member.entity.Member;
 import mvc.mvc2Study.springmvc.itemService.domain.member.repository.MemberRepository;
 import mvc.mvc2Study.springmvc.itemService.web.SessionConst;
+import mvc.mvc2Study.springmvc.itemService.web.common.Login;
 import mvc.mvc2Study.springmvc.itemService.web.session.SessionManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -69,11 +70,22 @@ public class HomeController {
         return "loginHome";
     }
 
-    @GetMapping("/")
+//    @GetMapping("/")
     public String homeLoginV4(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member member, Model model){
         if(member == null) return "home";
 
         model.addAttribute("member", member);
+        return "loginHome";
+    }
+
+    @GetMapping("/")
+    public String homeLoginV5(
+            @Login Member loginMember,
+            Model model
+    ) {
+        if(loginMember == null) return "home";
+
+        model.addAttribute("member", loginMember);
         return "loginHome";
     }
 }
