@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -80,7 +81,7 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @PostMapping("/login")
+//    @PostMapping("/login")
     public String loginV3(@Validated @ModelAttribute("loginDto") LoginDto loginDto,
                           BindingResult bindingResult, HttpServletRequest request){
         if(bindingResult.hasErrors())
@@ -104,6 +105,29 @@ public class LoginController {
         return "redirect:/";
     }
 
+    @PostMapping("/login")
+    public String loginV4(@Validated @ModelAttribute("loginDto") LoginDto loginDto,
+                          BindingResult bindingResult, HttpServletRequest request,
+                          @RequestParam(value = "redirectUrl", defaultValue = "/") String url){
+        if(bindingResult.hasErrors())
+            return "login/loginForm";
+
+        Member loginMember = loginService.login(loginDto.getLoginId(), loginDto.getPassword());
+        if(loginMember == null){
+            bindingResult.reject("loginFail", "아이디 또는 비밀번호 오류 입니다.");
+            return "login/loginForm";
+        }
+
+        // 로그인 성공 처리 TODO
+        // 세션이 있으면 있는 세션 반환, 세션이 없으면 생성해서 반환
+        // creat 옵션 default -> true
+        // creat false -> 세션이 없을 시 생성 X
+        HttpSession session = request.getSession();
+        // 세션에 로그인 정보 보관
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+
+        return "redirect:" + url;
+    }
 //    @PostMapping("/logout")
     public String logoutV2(HttpServletRequest request){
         sessionManager.expire(request);
