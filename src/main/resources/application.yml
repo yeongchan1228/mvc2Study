@@ -9,6 +9,8 @@ server:
   servlet:
     session:
       tracking-mode: cookcie
+      timeout: 60
+#      timeout: 1800 # default 값 -> 30분 -> 글로벌 설정
 
 spring:
   messages:
