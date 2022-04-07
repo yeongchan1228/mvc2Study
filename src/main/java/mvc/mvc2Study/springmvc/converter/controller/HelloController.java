@@ -1,6 +1,7 @@
 package mvc.mvc2Study.springmvc.converter.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import mvc.mvc2Study.springmvc.converter.type.IpPort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,12 @@ public class HelloController {
     @GetMapping("/hello-v2")
     public String helloV2(@RequestParam Integer data){
         log.info("data = {}", data.getClass());
+        return "ok!";
+    }
+
+    @GetMapping("/ip-port")
+    public String helloV2(@RequestParam IpPort data){
+        log.info("data = {}", data);
         return "ok!";
     }
 }
